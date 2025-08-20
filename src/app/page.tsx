@@ -14,6 +14,7 @@ interface PageProps {
   };
 }
 
+
 function getTitle({ q, type, location, remote }: JobFilterValues) {
   const titlePrefix = q
     ? `${q} jobs`
