@@ -62,7 +62,7 @@ export const createJobSchema = z
 export type CreateJobValues = z.infer<typeof createJobSchema>;
 
 export const jobFilterSchema = z.object({
-  q: z.string().optional(),
+  query: z.string().optional(),
   type: z.string().optional(),
   location: z.string().optional(),
   remote: z.coerce.boolean().optional(),

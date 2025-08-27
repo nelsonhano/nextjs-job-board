@@ -6,7 +6,7 @@ import { Metadata } from "next";
 
 interface PageProps {
   searchParams: {
-    q?: string;
+    query?: string;
     type?: string;
     location?: string;
     remote?: string;
@@ -14,10 +14,9 @@ interface PageProps {
   };
 }
 
-
-function getTitle({ q, type, location, remote }: JobFilterValues) {
-  const titlePrefix = q
-    ? `${q} jobs`
+function getTitle({ query, type, location, remote }: JobFilterValues) {
+  const titlePrefix = query
+    ? `${query} jobs`
     : type
       ? `${type} developer jobs`
       : remote
@@ -30,11 +29,11 @@ function getTitle({ q, type, location, remote }: JobFilterValues) {
 }
 
 export function generateMetadata({
-  searchParams: { q, type, location, remote },
+  searchParams: { query, type, location, remote },
 }: PageProps): Metadata {
   return {
     title: `${getTitle({
-      q,
+      query,
       type,
       location,
       remote: remote === "true",
@@ -43,10 +42,10 @@ export function generateMetadata({
 }
 
 export default async function Home({
-  searchParams: { q, type, location, remote, page },
+  searchParams: { query, type, location, remote, page },
 }: PageProps) {
   const filterValues: JobFilterValues = {
-    q,
+    query,
     type,
     location,
     remote: remote === "true",

@@ -1,21 +1,23 @@
-import { jobTypes } from "@/lib/job-types";
-import prisma from "@/lib/prisma";
-import { JobFilterValues, jobFilterSchema } from "@/lib/validation";
 import { redirect } from "next/navigation";
+
+import { JobFilterValues, jobFilterSchema } from "@/lib/validation";
 import FormSubmitButton from "./FormSubmitButton";
+import { jobTypes } from "@/lib/job-types";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import prisma from "@/lib/prisma";
 import Select from "./ui/select";
+import Link from "next/link";
 
 async function filterJobs(formData: FormData) {
   "use server";
 
   const values = Object.fromEntries(formData.entries());
 
-  const { q, type, location, remote } = jobFilterSchema.parse(values);
+  const { query , type, location, remote } = jobFilterSchema.parse(values);
 
   const searchParams = new URLSearchParams({
-    ...(q && { q: q.trim() }),
+    ...(query && { query: query.trim() }),
     ...(type && { type }),
     ...(location && { location }),
     ...(remote && { remote: "true" }),
@@ -46,12 +48,12 @@ export default async function JobFilterSidebar({
       <form action={filterJobs} key={JSON.stringify(defaultValues)}>
         <div className="space-y-4">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="q">Search</Label>
+            <Label htmlFor="query">Search</Label>
             <Input
-              id="q"
-              name="q"
+              id="query"
+              name="query"
               placeholder="Title, company, etc."
-              defaultValue={defaultValues.q}
+              defaultValue={defaultValues.query}
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -94,7 +96,12 @@ export default async function JobFilterSidebar({
             />
             <Label htmlFor="remote">Remote jobs</Label>
           </div>
-          <FormSubmitButton className="w-full">Filter jobs</FormSubmitButton>
+          <div className="flex gap-2">
+            <FormSubmitButton className="w-full">Filter jobs</FormSubmitButton>
+            <Link href="/" className="flex w-full items-center justify-center border border-black rounded-lg font-semibold">
+              Reset
+            </Link>
+          </div>
         </div>
       </form>
     </aside>

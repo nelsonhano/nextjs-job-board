@@ -15,12 +15,12 @@ export default async function JobResults({
   filterValues,
   page = 1,
 }: JobResultsProps) {
-  const { q, type, location, remote } = filterValues;
+  const { query, type, location, remote } = filterValues;
 
   const jobsPerPage = 6;
   const skip = (page - 1) * jobsPerPage;
 
-  const searchString = q
+  const searchString = query
     ?.split(" ")
     .filter((word) => word.length > 0)
     .join(" & ");
@@ -28,11 +28,11 @@ export default async function JobResults({
   const searchFilter: Prisma.JobWhereInput = searchString
     ? {
         OR: [
-          { title: { search: searchString } },
-          { companyName: { search: searchString } },
-          { type: { search: searchString } },
-          { locationType: { search: searchString } },
-          { location: { search: searchString } },
+          { title: { contains: searchString,  mode: "insensitive" } },
+          { companyName: { contains: searchString,  mode: "insensitive" } },
+          { type: { contains: searchString,  mode: "insensitive" } },
+          { locationType: { contains: searchString,  mode: "insensitive" } },
+          { location: { contains: searchString,  mode: "insensitive" } },
         ],
       }
     : {};
@@ -90,11 +90,11 @@ interface PaginationProps {
 function Pagination({
   currentPage,
   totalPages,
-  filterValues: { q, type, location, remote },
+  filterValues: { query, type, location, remote },
 }: PaginationProps) {
   function generatePageLink(page: number) {
     const searchParams = new URLSearchParams({
-      ...(q && { q }),
+      ...(query && { query }),
       ...(type && { type }),
       ...(location && { location }),
       ...(remote && { remote: "true" }),

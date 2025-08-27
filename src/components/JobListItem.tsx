@@ -1,8 +1,9 @@
+import { Banknote, Briefcase, Clock, Globe2, MapPin } from "lucide-react";
+import { Job } from "@prisma/client";
+import Image from "next/image";
+
 import companyLogoPlaceholder from "@/assets/company-logo-placeholder.png";
 import { formatMoney, relativeDate } from "@/lib/utils";
-import { Job } from "@prisma/client";
-import { Banknote, Briefcase, Clock, Globe2, MapPin } from "lucide-react";
-import Image from "next/image";
 import Badge from "./Badge";
 
 interface JobListItemProps {
