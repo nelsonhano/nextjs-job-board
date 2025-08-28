@@ -1,10 +1,11 @@
-import prisma from "@/lib/prisma";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
+
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { JobFilterValues } from "@/lib/validation";
 import { Prisma } from "@prisma/client";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import Link from "next/link";
 import JobListItem from "./JobListItem";
+import prisma from "@/lib/prisma";
+import { cn } from "@/lib/utils";
 
 interface JobResultsProps {
   filterValues: JobFilterValues;
@@ -17,7 +18,7 @@ export default async function JobResults({
 }: JobResultsProps) {
   const { query, type, location, remote } = filterValues;
 
-  const jobsPerPage = 6;
+  const jobsPerPage = 5;
   const skip = (page - 1) * jobsPerPage;
 
   const searchString = query
@@ -66,7 +67,7 @@ export default async function JobResults({
         </Link>
       ))}
       {jobs.length === 0 && (
-        <p className="m-auto text-center">
+        <p className="m-auto text-center font-extrabold md:text-4xl">
           No jobs found. Try adjusting your search filters.
         </p>
       )}

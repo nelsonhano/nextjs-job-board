@@ -1,8 +1,9 @@
+import { Metadata } from "next";
+
 import JobFilterSidebar from "@/components/JobFilterSidebar";
+import { JobFilterValues } from "@/lib/validation";
 import JobResults from "@/components/JobResults";
 import H1 from "@/components/ui/h1";
-import { JobFilterValues } from "@/lib/validation";
-import { Metadata } from "next";
 
 interface PageProps {
   searchParams: {
@@ -26,7 +27,7 @@ function getTitle({ query, type, location, remote }: JobFilterValues) {
   const titleSuffix = location ? ` in ${location}` : "";
 
   return `${titlePrefix}${titleSuffix}`;
-}
+};
 
 export function generateMetadata({
   searchParams: { query, type, location, remote },
@@ -39,7 +40,7 @@ export function generateMetadata({
       remote: remote === "true",
     })} | Flow Jobs`,
   };
-}
+};
 
 export default async function Home({
   searchParams: { query, type, location, remote, page },

@@ -1,8 +1,9 @@
 "use client";
 
-import LoadingButton from "@/components/LoadingButton";
-import LocationInput from "@/components/LocationInput";
-import RichTextEditor from "@/components/RichTextEditor";
+import { draftToMarkdown } from "markdown-draft-js";
+import { useForm } from "react-hook-form";
+import { X } from "lucide-react";
+
 import {
   Form,
   FormControl,
@@ -11,17 +12,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import H1 from "@/components/ui/h1";
+import { CreateJobValues, createJobSchema } from "@/lib/validation";
+import { jobTypes, locationTypes } from "@/lib/job-types";
+import RichTextEditor from "@/components/RichTextEditor";
+import LoadingButton from "@/components/LoadingButton";
+import LocationInput from "@/components/LocationInput";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Select from "@/components/ui/select";
-import { jobTypes, locationTypes } from "@/lib/job-types";
-import { CreateJobValues, createJobSchema } from "@/lib/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
-import { draftToMarkdown } from "markdown-draft-js";
-import { useForm } from "react-hook-form";
 import { createJobPosting } from "./actions";
+import Select from "@/components/ui/select";
+import H1 from "@/components/ui/h1";
 
 export default function NewJobForm() {
   const form = useForm<CreateJobValues>({

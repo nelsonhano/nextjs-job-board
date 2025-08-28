@@ -3,18 +3,22 @@ import { redirect } from "next/navigation";
 import { JobFilterValues, jobFilterSchema } from "@/lib/validation";
 import FormSubmitButton from "./FormSubmitButton";
 import { jobTypes } from "@/lib/job-types";
+import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import prisma from "@/lib/prisma";
 import Select from "./ui/select";
-import Link from "next/link";
 
 async function filterJobs(formData: FormData) {
   "use server";
 
-  const values = Object.fromEntries(formData.entries());
+  const isClear = formData.get("clear") === "true";
+  if (isClear) {
+    redirect("/");
+  };
 
-  const { query , type, location, remote } = jobFilterSchema.parse(values);
+  const values = Object.fromEntries(formData.entries());
+  const { query, type, location, remote } = jobFilterSchema.parse(values);
 
   const searchParams = new URLSearchParams({
     ...(query && { query: query.trim() }),
@@ -24,11 +28,11 @@ async function filterJobs(formData: FormData) {
   });
 
   redirect(`/?${searchParams.toString()}`);
-}
+};
 
 interface JobFilterSidebarProps {
   defaultValues: JobFilterValues;
-}
+};
 
 export default async function JobFilterSidebar({
   defaultValues,
@@ -98,9 +102,14 @@ export default async function JobFilterSidebar({
           </div>
           <div className="flex gap-2">
             <FormSubmitButton className="w-full">Filter jobs</FormSubmitButton>
-            <Link href="/" className="flex w-full items-center justify-center border border-black rounded-lg font-semibold">
+            <Button
+              type="submit"
+              name="clear"
+              value="true"
+              className="flex w-full items-center justify-center rounded-lg border border-black font-semibold"
+            >
               Reset
-            </Link>
+            </Button>
           </div>
         </div>
       </form>

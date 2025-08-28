@@ -31,8 +31,7 @@ const locationSchema = z
       "Invalid location type",
     ),
     location: z.string().max(100).optional(),
-  })
-  .refine(
+  }).refine(
     (data) =>
       !data.locationType || data.locationType === "Remote" || data.location,
     {
